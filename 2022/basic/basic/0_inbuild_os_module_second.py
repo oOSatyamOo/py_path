@@ -1,3 +1,10 @@
+# Python Interview Questions on OS Modules
+# What is OS Module in Python?
+# How to open  an OS Module in Python?
+# What is the use of OS Module in Python?
+# What is OS Path Module in Python?
+# What is import OS SYS in Python?
+
 # 31 & 32 Aspect	os.mkdir	os.makedirs
 # Creates Intermediate Dirs	No (raises FileNotFoundError)	Yes (creates all missing directories)
 # Single vs Nested Dirs	Single directory only	Handles both single and nested dirs
@@ -274,3 +281,285 @@ import os
 # When to Use os.pipe:
 # Use os.pipe() when you need lightweight, low-level communication between processes or different parts of your program.
 # For more complex scenarios, consider using higher-level abstractions like multiprocessing.Pipe or subprocess for easier process management and communication.
+
+# 41. popen os.popen(command, mode='r', buffering=-1)
+# The os.popen() function in Python is used to open a pipe to or from a command that is executed in the operating system shell.
+# This allows you to run external system commands and capture their output or send input to them.
+# command: The shell command to execute as a string (e.g., "ls -l", "cat file.txt").
+# mode:
+# 'r' (default): Opens the pipe for reading the command’s output.
+# 'w': Opens the pipe for writing to the command’s input.
+# buffering: Controls the buffering of the pipe. Defaults to line-buffered (buffering=-1).
+# Returns: A file-like object that can be used to read from or write to the command's input/output.
+
+# Use Cases
+# Executing System Commands: Run shell commands from within Python.
+# Capturing Command Output: Read the output of commands like ls, df, or cat.
+# Sending Input to Commands: Provide data to commands like grep or sort via the pipe.
+
+# import os
+# # Run the 'ls' command to list files in the current directory
+# process = os.popen("ls")
+# output = process.read()
+# process.close()
+# print("Command Output:")
+# print(output)
+# or
+# # Run 'ls | grep file' to find files with "file" in their name
+# process = os.popen("ls | grep file")
+# output = process.read()
+# process.close()
+# print(output)
+
+# Comparison with subprocess
+# While os.popen() is simple to use, it is considered less secure and less versatile compared to the subprocess module. For most use cases, it’s recommended to use subprocess.
+# Why Use subprocess Instead?
+# Better Control: subprocess provides fine-grained control over input/output streams and command execution.
+# Security: os.popen() uses the system shell by default, which can be unsafe if user input is passed to the command (risk of shell injection).
+# Deprecation Warning: While not officially deprecated, os.popen() is discouraged in favor of subprocess.
+
+
+# 43. readlink(path)
+# # will return a string denoting the path to which the symbolic link points. It may return a relative or an absolute pathname.
+# >>> src = '/usr/bin/python'
+# >>> dst = '/tmp/python'
+# >>> os.symlink(src, dst)
+# >>> path = os.readlink( dst )
+# >>> print(path)
+
+
+# 44. remove(path)
+# removes the specified file path. If that path is a directory, it raises an OSError
+# >>> print(f"The dir is: {os.listdir(os.getcwd())}")
+# >>> os.remove("aa.txt")
+# >>> print(f"The dir after removal of path: {os.listdir(os.getcwd())}")
+
+# 45. removedirs(path)
+# This Python os Module will remove directories recursively.
+# And if we successfully remove the leaf directory, it attempts to successively remove every parent directory displayed in that path.
+# >>> print(f"The dir is: {os.listdir(os.getcwd())}")
+# >>> os.removedirs("/tutorialsdir")
+# >>> print(f"The dir after removal is: {os.listdir(os.getcwd())}")
+
+# 46. rename(src,dst)
+# rename() renames a file or directory. If the destination is a file or a directory that already exists, it raises an OSError.
+# >>> print(f"The dir is: {os.listdir(os.getcwd())}”)
+# >>> os.rename("tutorialsdir","tutorialsdirectory")
+# >>> print(“Successfully renamed”)
+# >>> print(f"The dir is: {os.listdir(os.getcwd())}")
+
+# 47. renames(old,new)
+# renames() Python os Module renames directories and files recursively.
+
+# It is like os.rename(), but it also moves a file to a directory, or a whole tree of directories, that do not already exist.
+# >>> print("Current directory is: { os.getcwd()}")
+# >>> print("The dir is: { os.listdir(os.getcwd())}")
+# >>> os.renames("aa1.txt","newdir/aanew.txt")
+# >>> print("Successfully renamed”)
+# >>> print(f"The dir is: {os.listdir(os.getcwd())}")
+
+# # 48. rmdir(path)
+# >>> print(f"the dir is: { os.listdir(os.getcwd())}")
+# >>> os.rmdir("mydir")
+# >>> print(f"the dir is: { os.listdir(os.getcwd())}"
+
+# 49. stat(path)
+# Use Cases
+# File Size Check:
+# Determine if a file exceeds a certain size.
+# Timestamps:
+# Check when a file was last modified (st_mtime) or accessed (st_atime).
+# Permissions:
+# Validate or modify file permissions (st_mode).
+# Ownership:
+# Check which user or group owns a file (st_uid, st_gid).
+# File System Details:
+# Inspect inode numbers (st_ino) or device IDs (st_dev)
+
+# st_mode − protection bits
+# st_ino − inode number
+# st_dev − device
+# st_nlink − number of hard links
+# st_uid − user id of owner
+# st_gid − group id of owner
+# st_size − size of file, in bytes
+# st_atime − time of most recent access
+# st_mtime − time of most recent content modification
+# st_ctime − time of most recent metadata change.
+# Sample usage:
+
+# >>> statinfo = os.stat('a2.py')
+# >>> print(statinfo)
+
+# Difference Between os.stat and os.lstat
+# os.stat(path):
+# Follows symbolic links (gets metadata of the target).
+# os.lstat(path):
+# Does not follow symbolic links (gets metadata of the symlink itself).
+
+# Example Usage
+# 1. Retrieve File Metadata 
+# import os
+# # Get metadata about a file
+# file_stats = os.stat("example.txt")
+# # Print file size and last modification time
+# print("File Size:", file_stats.st_size, "bytes") # File Size: 2048 bytes
+# Time values are always returned as floating-point numbers after 3.8
+# print("Last Modified:", file_stats.st_mtime) # Last Modified: 1674059386.123456 
+
+# # Check if the file is readable by the owner
+# is_readable = bool(file_stats.st_mode & stat.S_IRUSR)
+# print("Is the file readable by the owner?", is_readable)
+# # To get metadata about the symlink itself, use follow_symlinks=False:
+# symlink_metadata = os.stat("example_symlink", follow_symlinks=False)
+# print("Symlink Metadata:", symlink_metadata)
+
+# 50. statvfs(path)
+# retrieves information about the file system containing a given path. It provides details such as
+# the size of the file system, available space, and block size, making it useful for analyzing disk usage and capacity.
+# ** This function is specific to Unix-like systems (e.g., Linux, macOS). It may not be available on Windows.
+# Attribute	Description
+# f_bsize	File system block size (used for transfers).
+# f_frsize	Fragment size (smallest unit of allocation).
+# f_blocks	Total number of blocks in the file system.
+# f_bfree	Number of free blocks in the file system.
+# f_bavail	Number of free blocks available to non-superuser processes.
+# f_files	Total number of file inodes in the file system.
+# f_ffree	Number of free inodes in the file system.
+# f_favail	Number of free inodes available to non-superuser processes.
+# f_flag	File system flags (e.g., read-only status).
+# f_namemax	Maximum filename length allowed on the file system.
+
+# Get file system stats for the root directory
+# fs_stats = os.statvfs("/")
+# # Calculate disk space in bytes
+# block_size = fs_stats.f_frsize
+# total_space = fs_stats.f_blocks * block_size
+# free_space = fs_stats.f_bfree * block_size
+# available_space = fs_stats.f_bavail * block_size
+# print(f"Total Space: {total_space / (1024**3):.2f} GB")
+# print(f"Free Space: {free_space / (1024**3):.2f} GB")
+# print(f"Available Space: {available_space / (1024**3):.2f} GB")
+# # Get file system stats for the root directory
+# fs_stats = os.statvfs("/")
+# # Check available inodes
+# free_inodes = fs_stats.f_ffree
+# print(f"Free Inodes: {free_inodes}")
+
+# 51. symlink(src,dst)
+# symlink() composes a symbolic link dst that points to the source.
+# Cross-File-System Linking:
+# Symlinks can point to targets on different file systems.
+# If the src file or directory is deleted or moved, the symlink becomes a "broken link."
+# os.symlink(src, dst, target_is_directory=False)
+# if os.path.islink("example_symlink"):
+#     print("This is a symlink!")
+# else:
+#     print("This is not a symlink.")
+# if os.path.islink(symlink) and not os.path.exists(symlink):
+#     print("This symlink is broken!")
+# Here’s the full list of relevant os methods for working with symlinks:
+# os.path.islink(path)
+# os.readlink(path)
+# os.symlink(src, dst)
+# os.remove(path)
+# os.lstat(path)
+# os.path.abspath(path)
+# os.path.exists(path)
+# os.path.lexists(path)
+# os.rename(src, dst)
+# os.listdir(path)
+# os.lchown(path, uid, gid)
+# os.lchmod(path, mode) (platform-specific)
+# os.stat(path) (follows the symlink by default)
+
+# 52. os.tcgetpgrp(fd) Limitation- 1.works only on terminal 2. Unix-specific
+# retrieves the process group ID (PGID) of the foreground process group for a given terminal file descriptor (fd). This is useful when working with terminal control in Unix-like operating systems.
+# What is a Process Group in Terminals?
+# A process group is a collection of processes identified by a process group ID (PGID).
+# Each terminal has a foreground process group, which is the group of processes currently interacting with the terminal (e.g., a shell or program running in the terminal).
+# Background processes running in the same terminal are not part of the foreground process group.
+# How os.tcgetpgrp Works
+# It queries the terminal associated with the file descriptor (fd) and returns the PGID of the foreground process group.
+# This is often used in terminal or job control scenarios, such as determining which process group currently has control of a terminal.
+# OSError: If the file descriptor is invalid or does not refer to a terminal device.
+# fd: A file descriptor referring to a terminal device (e.g., a terminal session). You can get this file descriptor using functions like os.open() or sys.stdin.fileno().
+# Example Usage
+# 1. Get Foreground Process Group ID
+# # Get the file descriptor for the current terminal
+# fd = os.open("/dev/tty", os.O_RDWR)
+# # Get the foreground process group ID
+# pgid = os.tcgetpgrp(fd)
+# print("Foreground Process Group ID:", pgid)
+# os.close(fd)
+# or
+# # Get the foreground process group ID of the terminal connected to stdin
+# pgid = os.tcgetpgrp(sys.stdin.fileno())
+# print("Foreground Process Group ID:", pgid)
+
+# Related Methods
+# os.tcsetpgrp(fd, pgid):
+# Sets the foreground process group of the terminal referred to by fd to the specified pgid.
+# os.getpgrp():
+# Returns the PGID of the calling process.
+# os.setpgid(pid, pgid):
+# Sets the process group ID for a specific process (pid).
+
+# 53. tcsetpgrp(fd, pg)
+# function in Python is used to set the foreground process group of a terminal. It assigns control of the terminal referred to by the file descriptor
+# which is an open file descriptor, and is returned by os.open(), to pg.
+# (fd) to the specified process group ID (pg). This is commonly used in job control for managing foreground and background processes in terminal applications or shells.
+# fd: A file descriptor that refers to a terminal device (e.g., /dev/tty or sys.stdin.fileno()).
+# pg: The process group ID (PGID) to be set as the foreground process group for the terminal.
+
+
+# 55. ttyname(fd)
+# ttyname() Python os Module  will return a string that denotes the terminal device linked to the descriptor fd.
+# If it isn’t linked to a terminal device, it raises an exception
+# >>> print(f"Current working dir : { os.getcwd()}")
+# >>> fd = os.open("/dev/tty",os.O_RDONLY)
+# >>> p = os.ttyname(fd)
+# >>> print(f"the terminal device associated is: {p}")
+# >>> os.close(fd)
+
+# 56. unlink(path)
+# This Python os Module will remove specified file path. If it is a directory, it raises an OSError.
+# >>> print(f"The dir is: { os.listdir(os.getcwd())}")
+# >>> os.unlink("aa.txt")
+# >>> print(f"The dir after removal of path : { os.listdir(os.getcwd())}")
+
+# 57. utime(path,times)
+# Python os Module utime() sets the access and modified times of the file at the specified path.
+# >>> stinfo = os.stat('a2.py')
+# >>> print(stinfo)
+# >>> print(f"access time of a2.py: { stinfo.st_atime }")
+# >>> print(f"modified time of a2.py: { stinfo.st_mtime }")
+# >>> os.utime("a2.py",(1330712280, 1330712292))
+
+
+# 58.walk(top[, topdown=True[, onerror=None[, followlinks=False]]])
+# walk() creates file names in a directory tree. It does so by walking the tree either bottom-up or top-down.
+
+# It has the following parameters:
+
+# top − Each directory rooted at directory
+# topdown − If topdown is True, or not specified, it scans directories top-down.
+# onerror − This may show an error to continue with the walk, or may raise an exception to abort the walk.
+# followlinks − This will visit directories that symlinks points to, that is, if set to true.
+# Sample usage:
+
+# >>> for root, dirs, files in os.walk(".", topdown=False):
+# OUTPUT
+# for name in files:
+# print(os.path.join(root, name))
+# for name in dirs:
+# print(os.path.join(root, name))
+
+# 59.write(fd,str)   
+# write(fd,str)
+# This Python os Module  will write the specified string to descriptor fd. It returns the number of bytes that it actually wrote.
+# >>> fd = os.open("f1.txt",os.O_RDWR|os.CREAT)
+# >>> ret = os.write(fd,"This is test")
+# >>> print(f"the number of bytes written: {ret}")
+# >>> print("written successfully")
+# >>> os.close(fd)
