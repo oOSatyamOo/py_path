@@ -11,6 +11,16 @@
 # # student('World','Hello')
 
 
+#  pass is the null statement in python. Nothing happens when this is 
+# encountered. This is used to prevent indentation errors and used as a placeholder.
+# What keyword is used to define an empty function or class in Python?
+# n = 10
+# for i in range(n):
+
+#     # pass can be used as placeholder
+#     # when code is to added later
+#     pass
+
 # # Arbitrary Keyword  Arguments 
 # # *args for variable number of arguments
 # def myFun(*argv):
@@ -111,9 +121,9 @@
 # squares = list(map(lambda x: x**2, numbers))
 
 # Sorting a list of tuples by the second element
-data = [(2, 'c'), (1, 'a'), (3, 'b')]
-sorted_data = sorted(data, key=lambda x: x[1])
-print(sorted_data)
+# data = [(2, 'c'), (1, 'a'), (3, 'b')]
+# sorted_data = sorted(data, key=lambda x: x[1])
+# print(sorted_data)
 # When Not to Use Lambdas
 # While lambdas are convenient, they aren't suitable for every case:
 
@@ -136,6 +146,11 @@ print(sorted_data)
 # myFun(lst)
 # print(lst)
 
+# del is used to delete a reference to an object. Any variable or list value can be deleted using del.
+# s = "GeeksForGeeks"
+# print(s)
+# del s
+# print(s)
 
 # #Deleting py function
 # # del func7
@@ -187,3 +202,29 @@ print(sorted_data)
 # # Calling the function with negative inputs
 # area2 = calculate_rectangle_area(-5, 6)
 # print("Area of rectangle with length -5 and width 6 is", area2)
+
+
+
+# async: Used to declare a function as asynchronous, allowing it to run concurrently with other tasks.
+
+# import asyncio
+# # Define an asynchronous main function
+# async def main():
+#     await func()
+# # Define another async function that prints a message
+# async def func():
+#     print("Hello, async world!")  
+# # Run the main function using asyncio.run
+# asyncio.run(main())
+
+
+# import asyncio
+# def func(x, y):
+#     return x + y
+# @asyncio.coroutine
+# def do_func(x, y):
+#     yield from asyncio.sleep(1)
+#     return func(x, y)
+# loop = asyncio.get_event_loop()
+# result = loop.run_until_complete(do_func(2,3))
+# print("Got:", result)

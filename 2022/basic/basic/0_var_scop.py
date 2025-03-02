@@ -19,6 +19,36 @@ def counter():
                 print(a)    
 counter()
 
+# Nonlocal keyword
+# a = 15
+# b = 10
+
+# def add():
+  
+#       # Add global variables a and b
+#     c = a + b  
+#     print(c)
+
+# add()  # Output: 25
+
+# def fun():
+  
+#   # Local variable in fun()
+#     var = 10  
+
+#     def gun():
+      
+#           # Modify var1 in the enclosing scope (fun)
+#         nonlocal var  
+#         var += 10  
+#         print(var)  
+
+#     gun() 
+
+# fun() # Output: 20
+
+
+
 # Here i is getting declaired outside for loop not inside
 for i in 'selfhelp':
     pass
